@@ -30,13 +30,13 @@ class ValidateRequest{
 
     ruleContainsReqFields(rule){
         if(!('field' in rule)){
-            return Error('rule.field is required.');
+            return Error('field is required.');
         }
         if(!('condition' in rule)){
-            return Error('rule.condition is required.');
+            return Error('condition is required.');
         }
         if(!('condition_value' in rule)){
-            return Error('rule.condition_value is required.');
+            return Error('condition_value is required.');
         }
     }
 
@@ -51,8 +51,8 @@ class ValidateRequest{
         const fields = input.rule.field;
         const data = input.data;
         let output;
-        // console.log(field.split(".",2));
-        const fieldArr = fields.split(".",3);
+        
+        const fieldArr = (fields.constructor === String) ? fields.split(".") : [fields];
         let fieldValue;
 
         if(fieldArr.length == 1){
@@ -70,9 +70,7 @@ class ValidateRequest{
             output = data[fieldValue.toString()];
             
             return output;
-            // if(data.constructor === String){
-            //     data.includes
-            // }
+            
         }else{
             let appendKey;
             for (let i = 0; i < fieldArr.length; i++) {

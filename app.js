@@ -7,18 +7,19 @@ const util = require('util');
 
 const app = Express();
 
+const validator = new Validator();
+const response = new Response();
+
 app.use(Express.json());
 
 app.use((err, req, res, next)=>{
     if(err){
-        return res.status(400).send(jsend.error('Invalid JSON payload passed.'));
+        return res.status(400).send(response.badRequest('Invalid JSON payload passed.'));
     }else{
         next();
     }
 })
 
-const validator = new Validator();
-const response = new Response();
 
 app.get('/', (req, res)=>{
     const output = response.printProfile();
@@ -32,7 +33,7 @@ app.post('/validate-rule', (req, res) => {
         //check if valid JSON request
         if(!validator.isJsonType(req)){
             
-            return res.status(400).send(jsend.error('request must be a JSON data.ENTER'));
+            return res.status(400).send(response.badRequest('request content must be of type json.'));
         }
 
         const request = req.body;
@@ -40,54 +41,53 @@ app.post('/validate-rule', (req, res) => {
         //check if required fields exist
         const hasRD = validator.hasRuleData(request)
         if (hasRD instanceof Error){
-            return res.status(400).send(jsend.error(hasRD));
+            return res.status(400).send(response.badRequest(hasRD.message));
         }
         
         //check if rule value is a valid object.
         if(!validator.isRuleJson(request.rule)){
-            return res.status(400).send(jsend.error('rule should be an object.'));
+            return res.status(400).send(response.badRequest('rule should be an object.'));
         }
 
         //check if rule has required fields 
         const ruleFields = validator.ruleContainsReqFields(request.rule);
         if(ruleFields instanceof Error){
-            return res.status(400).send(jsend.error(ruleFields));
+            return res.status(400).send(response.badRequest(ruleFields.message));
         }
         //check data type
         if(!validator.isDataValid(request.data)){
-            return res.status(400).send(jsend.error('data must be of either type Array, Json or String.'));
+            return res.status(400).send(response.badRequest('data must be of either type Json, Array or String.'));
         }
         //Check if value of rule field exists in data object. Retrieve value if it does.
         const fieldData = validator.checkFieldData(request);
         if(fieldData instanceof Error){
-            return res.status(400).send(jsend.error(fieldData));
+            return res.status(400).send(response.badRequest(fieldData.message));
         }
 
         //Check type of condition values.
-        const conditionType = validator.checkConditionTypes(fieldData, request.rule);
-        if(conditionType instanceof Error){
-            return res.status(400).send(jsend.error(conditionType));
-        }
+        // const conditionType = validator.checkConditionTypes(fieldData, request.rule);
+        // if(conditionType instanceof Error){
+        //     return res.status(400).send(response.badRequest(conditionType));
+        // }
 
+        //Run condition against rule and data
         const finalValidation = validator.validateRuleData(fieldData, request.rule);
         if(finalValidation instanceof Error){
-            return res.status(400).send(jsend.error(finalValidation));
+            //Encountered error
+            return res.status(400).send(response.badRequest(finalValidation.message));
         }else if (!finalValidation) {
+            //Validation failed
             const result = response.validationResponse(fieldData, request.rule, false);
             return res.status(400).send(result);
         } else {
+            //Validation Passed
             const result = response.validationResponse(fieldData, request.rule, true);
             return res.status(200).send(result);
         }
-
-
-
-        return res.send(jsend.success(req.body.rule));
-        //return jsend.success('Validation successful')
     }
     catch (err) {
         console.log(err)
-        return res.send(jsend.error('Something went wrong. Contact administrator.'));
+        return res.send(response.badRequest('Something went wrong. Please contact administrator.'));
     }
 
 })

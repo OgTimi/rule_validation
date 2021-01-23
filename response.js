@@ -32,6 +32,16 @@ class Response{
         
         return result;
     }
+
+    badRequest(message){
+        const response = {
+            "message" : message.toString(),
+            "status" : "error",
+            "data" : null
+        }
+
+        return response;
+    }
 }
 
 module.exports = Response;
