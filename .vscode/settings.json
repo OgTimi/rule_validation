@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e4185226-b56e-46bb-8122-6feb1896d357/resourceGroups/APIs/providers/Microsoft.Web/sites/fw-rule-validator",
+    "appService.deploySubpath": "."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "fwvalidation",
+  "version": "1.0.0",
+  "description": "A nodejs application to validate data against given rules",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app"
+  },
+  "author": "Timi, Olushile Gerald.",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsend": "^1.1.0",
+    "nodemon": "^2.0.7"
+  }
+}
