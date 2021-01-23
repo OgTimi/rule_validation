@@ -91,7 +91,7 @@ class ValidateRequest{
                         continue;
                     }else{
                         //check type of variable in current data.
-                        if(!((appendKey.constructor === Object) ? (fieldValue in appendKey) : (appendKey.includes(fieldValue)))){
+                        if(!((appendKey.constructor === Object) ? (fieldValue in appendKey) : (appendKey.toString().includes(fieldValue)))){
                             return Error(`field ${fieldValue} is missing from data.`);
                         }
                         appendKey = appendKey[fieldValue.toString()];
