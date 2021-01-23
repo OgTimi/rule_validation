@@ -8,10 +8,6 @@ class ValidateRequest{
     }
 
     hasRuleData(req){
-        // const keys = ['rule', 'data'];
-        // if(keys.every(k => Object.keys(req).includes(k))){
-        //     return true;
-        // }
         if(!('rule' in req)){
             return Error('rule is required.');
         }
