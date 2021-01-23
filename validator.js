@@ -48,13 +48,16 @@ class ValidateRequest{
         const data = input.data;
         let output;
         
+        //check if value of rule.field is a string to be used as key in data
         if(fields.constructor !== String){
             return Error(`rule.field should be a string.`);
         }
         
+        //split into array incase of nested field
         const fieldArr = fields.split(".");
         let fieldValue;
 
+        //if not nested, retrieve first value
         if(fieldArr.length == 1){
             fieldValue = fieldArr[0];
             if(data.constructor === Object){
@@ -73,6 +76,7 @@ class ValidateRequest{
             
         }else{
             let appendKey;
+            //loop through nested data and check if it exists in data
             for (let i = 0; i < fieldArr.length; i++) {
                 fieldValue = fieldArr[i];
                 
@@ -86,7 +90,8 @@ class ValidateRequest{
                         
                         continue;
                     }else{
-                        if(!(fieldValue in appendKey)){
+                        //check type of variable in current data.
+                        if(!((appendKey.constructor === Object) ? (fieldValue in appendKey) : (appendKey.includes(fieldValue)))){
                             return Error(`field ${fieldValue} is missing from data.`);
                         }
                         appendKey = appendKey[fieldValue.toString()];
@@ -113,7 +118,6 @@ class ValidateRequest{
                 
                 
             }
-            
             return output;
             
         }

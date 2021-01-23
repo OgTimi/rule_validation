@@ -67,12 +67,6 @@ app.post('/validate-rule', (req, res) => {
             return res.status(400).send(response.badRequest(fieldData.message));
         }
 
-        //Check type of condition values.
-        // const conditionType = validator.checkConditionTypes(fieldData, request.rule);
-        // if(conditionType instanceof Error){
-        //     return res.status(400).send(response.badRequest(conditionType));
-        // }
-
         //Run condition against rule and data
         const finalValidation = validator.validateRuleData(fieldData, request.rule);
         if(finalValidation instanceof Error){
@@ -90,7 +84,7 @@ app.post('/validate-rule', (req, res) => {
     }
     catch (err) {
         console.log(err)
-        return res.send(response.badRequest('Something went wrong. Please contact administrator.'));
+        return res.status(400).send(response.badRequest('Something went wrong. Please contact administrator.'));
     }
 
 })
