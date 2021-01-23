@@ -37,6 +37,9 @@ app.post('/validate-rule', (req, res) => {
         }
 
         const request = req.body;
+        if(request.constructor === Array){
+            return res.status(400).send(response.badRequest(`Json object expected. Array received.`));
+        }
         
         //check if required fields exist
         const hasRD = validator.hasRuleData(request)
