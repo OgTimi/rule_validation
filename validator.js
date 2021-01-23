@@ -48,7 +48,10 @@ class ValidateRequest{
         const data = input.data;
         let output;
         
-        const fieldArr = (fields.constructor === String) ? fields.split(".") : [fields];
+        if(fields.constructor !== String){
+            return Error(`rule.field should be a string.`);
+        }
+        const fieldArr = fields.split(".");
         let fieldValue;
 
         if(fieldArr.length == 1){
