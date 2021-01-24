@@ -84,7 +84,7 @@ app.post('/validate-rule', (req, res) => {
     }
     catch (err) {
         console.log(err)
-        return res.status(400).send(response.badRequest('Something went wrong. Please contact administrator.'));
+        return res.status(500).send(response.badRequest('Something went wrong. Please contact administrator.'));
     }
 
 })
