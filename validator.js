@@ -54,7 +54,7 @@ class ValidateRequest{
         }
         
         //split into array incase of nested field
-        const fieldArr = fields.split(".");
+        const fieldArr = fields.trim().split(".");
         let fieldValue;
 
         //if not nested, retrieve first value

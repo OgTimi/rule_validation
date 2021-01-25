@@ -17,7 +17,7 @@ class Response{
 
     validationResponse(fieldVal, rule, isTrue){
         const result = {
-            "message" : (isTrue) ? `field ${rule.field} successfully validated.` : `field ${rule.field} failed validation.`,
+            "message" : (isTrue) ? `field ${rule.field.toString().trim()} successfully validated.` : `field ${rule.field.toString().trim()} failed validation.`,
             "status" : (isTrue) ? "success" : "error",
             "data" : {
                 "validation" : {
