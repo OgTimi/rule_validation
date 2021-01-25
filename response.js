@@ -22,9 +22,9 @@ class Response{
             "data" : {
                 "validation" : {
                     "error" : (isTrue) ? false : true,
-                    "field" : `${rule.field}`,
+                    "field" : `${rule.field.toString().trim()}`,
                     "field_value" : fieldVal,
-                    "condition" : `${rule.condition}`,
+                    "condition" : `${rule.condition.toString().trim()}`,
                     "condition_value" : rule.condition_value
                 }
             }

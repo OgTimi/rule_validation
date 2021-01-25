@@ -78,7 +78,7 @@ class ValidateRequest{
             let appendKey;
             //loop through nested data and check if it exists in data
             for (let i = 0; i < fieldArr.length; i++) {
-                fieldValue = fieldArr[i];
+                fieldValue = fieldArr[i].trim();
                 
                 if(data.constructor === Object){
                     if(appendKey == undefined){
@@ -134,7 +134,7 @@ class ValidateRequest{
     validateRuleData(fieldVal, ruleObj){
         let output = false;
         const conditionVal = ruleObj.condition_value;
-        switch (ruleObj.condition.toLowerCase()) {
+        switch (ruleObj.condition.toString().trim().toLowerCase()) {
             case 'eq':
                 output = (fieldVal === conditionVal) ? true : false;
                 break;
